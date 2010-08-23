@@ -26,7 +26,12 @@ class AutoRun {
         echo "
 AutoRun 1.0.0 by Marcello Duarte.
 
-Usage: autorun <command>
+Make sure a autorun bash with your command is in the executable PATH
+and it has the followig line:
+
+php AutoRun.php <command>
+
+Usage: autorun
 ";
     }
     
@@ -69,7 +74,7 @@ Usage: autorun <command>
     private function runCommandIfThisFileWasModified(SplFileInfo $file, $command) {
         if ($this->wasModifiedSincelastRun($file)) {
             $this->clearTerminalAndRun($command);
-            $this->resetTime($file);
+            $this->updateLastModifiedTime($file);
         }
     }
     
@@ -82,8 +87,8 @@ Usage: autorun <command>
         system($command);
     }
     
-    private function resetTime(SplFileInfo $file) {
-        self::$lastTime = $file->getMTime();
+    private function updateLastModifiedTime(SplFileInfo $modifiedFile) {
+        self::$lastTime = $modifiedFile->getMTime();
     }
 }
 
