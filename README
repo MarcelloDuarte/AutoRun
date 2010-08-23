@@ -1,0 +1,12 @@
+Place the AutoRun.php into a directory of your included paths.
+
+Place the autorun bash script into your $PATH.
+
+Navigate to your tests directory
+$ cd /path/to/my/tests/
+
+Run:
+$ autorun
+
+Now live the terminal open and work on your tests.
+The terminal will update every time you save a test file.
