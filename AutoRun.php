@@ -49,7 +49,7 @@ Usage: autorun <command>
 	}
 	
 	/**
-	 * For some reasone I can't use the same Directory Iterator object. I needed
+	 * For some reason I can't use the same Directory Iterator object. I needed
 	 * a brand new Directory Iterator due to some internals of how the SPL class works
 	 */
 	private function recursivelyRun(DirectoryIterator $dir, $command) {
