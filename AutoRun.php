@@ -9,11 +9,11 @@ class AutoRun {
         $dir      = new DirectoryIterator(".");
         $autorun  = new AutoRun($lastTime, $dir);
         
-        if ($argc === 0) {
+        if ($argc <= 1) {
             self::usage();
             exit(1);
         }
-        
+
         $argv = array_slice($argv, 1);
         $command  = implode(' ', $argv);
 
@@ -72,14 +72,14 @@ Usage: autorun
     }
     
     private function runCommandIfThisFileWasModified(SplFileInfo $file, $command) {
-        if ($this->wasModifiedSincelastRun($file)) {
+        if ($this->wasModifiedSinceLastRun($file)) {
             $this->clearTerminalAndRun($command);
             $this->updateLastModifiedTime($file);
         }
     }
     
-    private function wasModifiedSincelastRun(SplFileInfo $file) {
-        return $file->getMTime() > self::$lastTime;
+    private function wasModifiedSinceLastRun(SplFileInfo $file) {
+        return filemtime($file->getRealpath()) > self::$lastTime;
     }
     
     private function clearTerminalAndRun($command) {
