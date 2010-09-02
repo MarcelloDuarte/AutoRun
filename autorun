@@ -1,10 +1,13 @@
 #!/bin/sh
 
 if [ ! "$1" = "" ] ; then
-SHELLSCRIPT=$1
+CALL_PATH=$1
 else
-SHELLSCRIPT=AutoRun.php phpunit --colors .
+CALL_PATH= .
 fi
+# Construct the call
+SHELLSCRIPT=AutoRun.php phpunit --colors $CALL_PATH
+
 # location of the php binary
 PHP_BIN=`which php`
 # evaluate the absolute path to installation
@@ -13,12 +16,12 @@ INSTALLDIR=`echo $0 | sed 's/autorun//g'`
 #  prepend the intallation path if not given an absolute path
 if [ "$INSTALLDIR" != "" -a "expr index $SHELLSCRIPT /" != "1" ];then
 	# Check the process is not already running befor starting it
-    if ! ps auxwww | grep "$INSTALLDIR""$CRONSCRIPT" | grep -v grep 1>/dev/null 2>/dev/null ; then
+    if ! ps auxwww | grep "$INSTALLDIR""$SHELLSCRIPT" | grep -v grep 1>/dev/null 2>/dev/null ; then
         $PHP_BIN "$INSTALLDIR""$SHELLSCRIPT"
     fi
 else
 	# Check the process is not already running befor starting it
-    if ! ps auxwww | grep " $CRONSCRIPT" | grep -v grep 1>/dev/null 2>/dev/null ; then
+    if ! ps auxwww | grep " $SHELLSCRIPT" | grep -v grep 1>/dev/null 2>/dev/null ; then
         $PHP_BIN $SHELLSCRIPT
     fi
 fi
