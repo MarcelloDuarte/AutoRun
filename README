@@ -8,5 +8,5 @@ $ cd /path/to/my/tests/
 Run:
 $ autorun
 
-Now live the terminal open and work on your tests.
+Now leave the terminal open and work on your tests.
 The terminal will update every time you save a test file.
