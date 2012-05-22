@@ -6,7 +6,7 @@ else
 CALL_PATH="."
 fi
 # Define command
-COMMAND="phpunit --colors"
+COMMAND="phpunit"
 # Construct the call
 SHELLSCRIPT=AutoRun.php
 
