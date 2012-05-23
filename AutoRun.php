@@ -1,11 +1,14 @@
 <?php
-define(PATH_IMAGE_GREEN, __DIR__ . '/green.png');
-define(PATH_IMAGE_RED, __DIR__ . '/red.png');
 
-class AutoRun {
+define("PATH_IMAGE_GREEN", __DIR__ . '/green.png');
+define("PATH_IMAGE_RED", __DIR__ . '/red.png');
+
+class AutoRun
+{
     static public $lastTime;
 
-    public static function main($argc, array $argv = array()) {
+    public static function main($argc, array $argv = array())
+    {
         chdir(".");
         $lastTime = time();
         $dir      = new DirectoryIterator(".");
@@ -24,7 +27,8 @@ class AutoRun {
         }
     }
 
-    public static function usage() {
+    public static function usage()
+    {
         echo "
 AutoRun 1.0.0 by Marcello Duarte.
 
@@ -37,13 +41,15 @@ Usage: autorun
             ";
     }
 
-    public function __construct($lastTime, DirectoryIterator $testDir) {
+    public function __construct($lastTime, DirectoryIterator $testDir)
+    {
         self::$lastTime = $lastTime;
         $this->testDir = $testDir;
     }
 
-    public function run($command) {
-        foreach ($this->testDir as $file){
+    public function run($command)
+    {
+        foreach ($this->testDir as $file) {
             if ($file->isDot()) continue;
 
             if ($file->isDir()) {
@@ -61,7 +67,8 @@ Usage: autorun
      * For some reason I can't use the same Directory Iterator object. I needed
      * a brand new Directory Iterator due to some internals of how the SPL class works
      */
-    private function recursivelyRun(DirectoryIterator $dir, $command) {
+    private function recursivelyRun(DirectoryIterator $dir, $command)
+    {
         $this->cloneDirectoryIteratorAndCreateNewAutoRun($dir)
             ->run($command);
     }
@@ -70,23 +77,27 @@ Usage: autorun
      * Cloning with the clone statement wasn't enough. I really need a new object.
      * I create one with from the previous directory's path. 
      */
-    private function cloneDirectoryIteratorAndCreateNewAutoRun(DirectoryIterator $dir) {
+    private function cloneDirectoryIteratorAndCreateNewAutoRun(DirectoryIterator $dir)
+    {
         $clone = new DirectoryIterator($dir->getPathName());
         return new AutoRun(self::$lastTime, $clone);
     }
 
-    private function runCommandIfThisFileWasModified(SplFileInfo $file, $command) {
+    private function runCommandIfThisFileWasModified(SplFileInfo $file, $command)
+    {
         if ($this->wasModifiedSinceLastRun($file)) {
             $this->clearTerminalAndRun($command);
             $this->updateLastModifiedTime($file);
         }
     }
 
-    private function wasModifiedSinceLastRun(SplFileInfo $file) {
+    private function wasModifiedSinceLastRun(SplFileInfo $file)
+    {
         return filemtime($file->getRealpath()) > self::$lastTime;
     }
 
-    private function clearTerminalAndRun($command) {
+    private function clearTerminalAndRun($command)
+    {
         system('clear');
         system($command, $result);
         $this->notifyResult($result);
@@ -96,13 +107,14 @@ Usage: autorun
     {
         $hasError = (bool) $result;
         if ($hasError) {
-            system('growlnotify -m "Fail" -t "PHPUnit" --image ' . PATH_IMAGE_RED);
+            system('growlnotify -m "Fail" -t "AutoRun" --image ' . PATH_IMAGE_RED);
         } else {
-            system('growlnotify -m "Pass" -t "PHPUnit" --image ' . PATH_IMAGE_GREEN);
+            system('growlnotify -m "Pass" -t "AutoRun" --image ' . PATH_IMAGE_GREEN);
         }
     }
 
-    private function updateLastModifiedTime(SplFileInfo $modifiedFile) {
+    private function updateLastModifiedTime(SplFileInfo $modifiedFile)
+    {
         self::$lastTime = $modifiedFile->getMTime();
     }
 }
