@@ -106,9 +106,9 @@ Usage: autorun
     {
         $hasError = (bool) $result;
         if ($hasError) {
-            system('growlnotify -m "Fail" -t "AutoRun" --image ' . PATH_IMAGE_RED);
+            system('growlnotify -m "Fail" -t "AutoRun" --image ' . IMAGE_RED_PATH);
         } else {
-            system('growlnotify -m "Pass" -t "AutoRun" --image ' . PATH_IMAGE_GREEN);
+            system('growlnotify -m "Pass" -t "AutoRun" --image ' . IMAGE_GREEN_PATH);
         }
     }
 
