@@ -1,0 +1,21 @@
+{
+    "name": "MarcelloDuarte/AutoRun",
+    "description": "Monitors project files and run a command when a file is saved.",
+    "require": {
+        "eher/phpunit": "1.5"
+    },
+    "bin": [
+        "bin/autorun"
+    ],
+    "autoload": {
+        "psr-0": {
+            "MarcelloDuarte\\AutoRun": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Eher",
+            "email": "alexandre@eher.com.br"
+        }
+    ]
+}
