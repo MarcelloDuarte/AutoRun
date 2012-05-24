@@ -1,0 +1,26 @@
+#!/usr/bin/env php
+<?php
+
+use MarcelloDuarte\AutoRun\AutoRun;
+
+define("VENDOR_PATH_WHEN_INSTALLED", __DIR__ . '/../../../');
+define("VENDOR_PATH_WHEN_CLONED", __DIR__ . '/../vendor/');
+
+if (file_exists(VENDOR_PATH_WHEN_INSTALLED . "autoload.php")) {
+    define("LOADER_PATH", VENDOR_PATH_WHEN_INSTALLED . 'autoload.php');
+    define("IMAGE_GREEN_PATH", VENDOR_PATH_WHEN_INSTALLED . 'MarcelloDuarte/AutoRun/image/green.png');
+    define("IMAGE_RED_PATH", VENDOR_PATH_WHEN_INSTALLED . 'MarcelloDuarte/AutoRun/image/red.png');
+} else if (file_exists(VENDOR_PATH_WHEN_CLONED . "autoload.php")) {
+    define("LOADER_PATH", VENDOR_PATH_WHEN_CLONED . 'autoload.php');
+    define("IMAGE_GREEN_PATH", VENDOR_PATH_WHEN_CLONED . '../image/green.png');
+    define("IMAGE_RED_PATH", VENDOR_PATH_WHEN_CLONED . '../image/red.png');
+} else {
+    echo "Can't find ComposerLoader.\n";
+    echo "try:\n";
+    echo "\tphp composer.phar update";
+    exit();
+}
+
+$loader = require_once LOADER_PATH;
+
+AutoRun::main(count($_SERVER['argv']), $_SERVER['argv']);
